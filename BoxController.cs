@@ -9,6 +9,32 @@ public class BoxController : MonoBehaviour
 
     Piece piece;
 
+    [SerializeField] Color baseColor;
+    [SerializeField] Color selectedColor;
+    [SerializeField] Color possibleMovementColor;
+
+    MaterialPropertyBlock propertyBlock;
+    Renderer renderer;
+    public void Initialize(Color _color, int _row, int _column)
+    {
+        bool b = TryGetComponent(out renderer);
+        propertyBlock = new MaterialPropertyBlock();
+
+        baseColor = _color;
+        possibleMovementColor *= _color;
+        selectedColor *= _color;
+
+
+        ChangeColor(selectedColor);
+        SetPosition(_row, _column);
+    }
+
+    public void ChangeColor(Color color)
+    {
+        propertyBlock.SetColor("_Color", color);
+        renderer.SetPropertyBlock(propertyBlock);
+    }
+
     public void SetPosition(int _row, int _column)
     {
         row = _row;

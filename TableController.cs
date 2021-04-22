@@ -13,8 +13,6 @@ public class TableController : MonoBehaviour
 
     private void Start()
     {
-        MaterialPropertyBlock black = new MaterialPropertyBlock();
-        black.SetColor("_Color", Color.grey);
         for (int i = 0; i < 8; i++)
         {
             for (int j = 0; j < 8; j++)
@@ -22,22 +20,14 @@ public class TableController : MonoBehaviour
                 BoxController _box = Instantiate(box, new Vector3(i, j, 0) + transform.position, Quaternion.identity, gameObject.transform);
                 table[i * 8 + j] = _box;
 
-                _box.SetPosition(j, i);
-
                 if ((i + j) % 2 == 0)
-                    ChangeColor(_box.gameObject, black);
+                    _box.Initialize(Color.grey, j, i);
+                else
+                    _box.Initialize(Color.white, j, i);
             }
         }
 
         GeneratePieces();
-    }
-
-    void ChangeColor(GameObject _box, MaterialPropertyBlock blackPropertyBlock)
-    {
-        if (_box.TryGetComponent(out Renderer ren))
-        {
-            ren.SetPropertyBlock(blackPropertyBlock);
-        }
     }
 
     void GeneratePieces()
