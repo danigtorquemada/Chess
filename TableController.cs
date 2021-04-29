@@ -4,12 +4,23 @@ using UnityEngine;
 
 public class TableController : MonoBehaviour
 {
+    public static TableController instance;
+
     [SerializeField] BoxController box;
     [SerializeField] BoxController[] table = new BoxController[64];
 
     [SerializeField] Transform[] teams = new Transform[2];
 
     [SerializeField] Transform piece;
+
+
+    private void Awake()
+    {
+        if (instance == null)
+            instance = this;
+        else if (instance != this)
+            Destroy(gameObject);
+    }
 
     private void Start()
     {
@@ -18,12 +29,13 @@ public class TableController : MonoBehaviour
             for (int j = 0; j < 8; j++)
             {
                 BoxController _box = Instantiate(box, new Vector3(i, j, 0) + transform.position, Quaternion.identity, gameObject.transform);
+                _box.name += i * 8 + j;
                 table[i * 8 + j] = _box;
 
                 if ((i + j) % 2 == 0)
-                    _box.Initialize(Color.grey, j, i);
+                    _box.Initialize(Color.grey, i, j);
                 else
-                    _box.Initialize(Color.white, j, i);
+                    _box.Initialize(Color.white, i, j);
             }
         }
 
@@ -80,5 +92,10 @@ public class TableController : MonoBehaviour
                 table[i * 8 + j].SetPiece(_piece);
             }
         }
+    }
+
+    public BoxController GetBox(int row, int column)
+    {
+        return table[row * 8 + column];
     }
 }

@@ -7,7 +7,7 @@ public class BoxController : MonoBehaviour
     int row;
     int column;
 
-    Piece piece;
+    [SerializeField] Piece piece;
 
     [SerializeField] Color baseColor;
     [SerializeField] Color selectedColor;
@@ -25,11 +25,11 @@ public class BoxController : MonoBehaviour
         selectedColor *= _color;
 
 
-        ChangeColor(selectedColor);
+        ChangeColor(baseColor);
         SetPosition(_row, _column);
     }
 
-    public void ChangeColor(Color color)
+    void ChangeColor(Color color)
     {
         propertyBlock.SetColor("_Color", color);
         renderer.SetPropertyBlock(propertyBlock);
@@ -44,10 +44,37 @@ public class BoxController : MonoBehaviour
     public void SetPiece(Piece _piece)
     {
         piece = _piece;
+        if (piece != null)
+            piece.transform.position = transform.position;
     }
 
     public bool HasPiece()
     {
         return piece != null;
+    }
+
+    public Piece GetPiece()
+    {
+        return piece;
+    }
+
+    public void ChangePossibleMovement()
+    {
+        ChangeColor(possibleMovementColor);
+    }
+
+    public void SelectBox()
+    {
+        ChangeColor(selectedColor);
+
+        if (piece != null)
+            piece.ShowPosibleMovement(row, column);
+    }
+
+    public void DeselectBox(bool firstSelected = true)
+    {
+        ChangeColor(baseColor);
+        if (!firstSelected && piece != null)
+            piece.HidePosibleMovement();
     }
 }
