@@ -96,6 +96,9 @@ public class TableController : MonoBehaviour
 
     public BoxController GetBox(int row, int column)
     {
-        return table[row * 8 + column];
+        int position = row * 8 + column;
+        if (position < table.Length && position >= 0)
+            return table[position];
+        else return null;
     }
 }

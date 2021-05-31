@@ -20,15 +20,15 @@ public class Pawn : Piece
         int multiplierTeam = (myTeam == Team.black ? 1 : -1);
         BoxController _box = TableController.instance.GetBox(row, column + multiplierTeam);
 
-        if (!_box.HasPiece())
+        if (_box && !_box.HasPiece())
         {
             AddPosibleMovement(_box);
         }
 
-        if (bFirstMovement)
+        if (bFirstMovement && !_box.HasPiece())
         {
             _box = TableController.instance.GetBox(row, column + multiplierTeam * 2);
-            if (!_box.HasPiece())
+            if (_box && !_box.HasPiece())
             {
                 AddPosibleMovement(_box);
             }
@@ -40,7 +40,7 @@ public class Pawn : Piece
 
             _box = TableController.instance.GetBox(row + x, column + multiplierTeam);
 
-            if (_box.HasPiece() && _box.GetPiece().GetTeam() != myTeam)
+            if (_box  && _box.HasPiece() && _box.GetPiece().GetTeam() != myTeam)
             {
                 AddPosibleMovement(_box);
             }
