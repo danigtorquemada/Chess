@@ -48,6 +48,12 @@ public class BoxController : MonoBehaviour
             piece.transform.position = transform.position;
     }
 
+    public bool HasPiece(out Piece currentPiece)
+    {
+        currentPiece = piece;
+
+        return piece != null;
+    }
     public bool HasPiece()
     {
         return piece != null;
@@ -63,11 +69,11 @@ public class BoxController : MonoBehaviour
         ChangeColor(possibleMovementColor);
     }
 
-    public void SelectBox()
+    public void SelectBox(int turn)
     {
         ChangeColor(selectedColor);
 
-        if (piece != null)
+        if (piece != null && turn == (int)piece.GetTeam())
             piece.ShowPosibleMovement(row, column);
     }
 

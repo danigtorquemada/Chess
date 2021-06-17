@@ -9,7 +9,7 @@ public class Piece : MonoBehaviour
 
     protected List<BoxController> possibleMovements = new List<BoxController>();
 
-    public enum Team { black, white }
+    public enum Team { White , Black }
 
     public enum PieceType { pawn, bishop, horse, tower, queen, king }
 
@@ -19,6 +19,8 @@ public class Piece : MonoBehaviour
         pieceType = _pieceType;
 
         SetImage();
+
+        GameManager.singleton.AddPiece(this);
     }
 
     void SetImage()

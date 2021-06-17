@@ -17,7 +17,7 @@ public class Pawn : Piece
         base.ShowPosibleMovement(row, column);
         possibleMovements.Clear();
 
-        int multiplierTeam = (myTeam == Team.black ? 1 : -1);
+        int multiplierTeam = (myTeam == Team.Black ? 1 : -1);
         BoxController _box = TableController.instance.GetBox(row, column + multiplierTeam);
 
         if (_box && !_box.HasPiece())

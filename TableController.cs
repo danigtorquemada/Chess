@@ -13,7 +13,6 @@ public class TableController : MonoBehaviour
 
     [SerializeField] Transform piece;
 
-
     private void Awake()
     {
         if (instance == null)
@@ -53,7 +52,7 @@ public class TableController : MonoBehaviour
             {
                 goPiece = Instantiate(piece.gameObject, new Vector3(i, j, 0) + transform.position, Quaternion.identity, teams[j == 1 ? 0 : 1]);
                 _piece = goPiece.AddComponent<Pawn>();
-                _piece.GetComponent<Pawn>().Initialize(j == 1 ? Piece.Team.black : Piece.Team.white);
+                _piece.GetComponent<Pawn>().Initialize(j == 1 ? Piece.Team.Black : Piece.Team.White);
                 table[i * 8 + j].SetPiece(_piece);
             }
 
@@ -65,25 +64,25 @@ public class TableController : MonoBehaviour
                     case 0:
                     case 7:
                         _piece = goPiece.AddComponent<Tower>();
-                        _piece.GetComponent<Tower>().Initialize(j == 0 ? Piece.Team.black : Piece.Team.white);
+                        _piece.GetComponent<Tower>().Initialize(j == 0 ? Piece.Team.Black : Piece.Team.White);
                         break;
                     case 1:
                     case 6:
                         _piece = goPiece.AddComponent<Horse>();
-                        _piece.GetComponent<Horse>().Initialize(j == 0 ? Piece.Team.black : Piece.Team.white);
+                        _piece.GetComponent<Horse>().Initialize(j == 0 ? Piece.Team.Black: Piece.Team.White);
                         break;
                     case 2:
                     case 5:
                         _piece = goPiece.AddComponent<Bishop>();
-                        _piece.GetComponent<Bishop>().Initialize(j == 0 ? Piece.Team.black : Piece.Team.white);
+                        _piece.GetComponent<Bishop>().Initialize(j == 0 ? Piece.Team.Black : Piece.Team.White);
                         break;
                     case 3:
                         _piece = goPiece.AddComponent<King>();
-                        _piece.GetComponent<King>().Initialize(j == 0 ? Piece.Team.black : Piece.Team.white);
+                        _piece.GetComponent<King>().Initialize(j == 0 ? Piece.Team.Black: Piece.Team.White);
                         break;
                     case 4:
                         _piece = goPiece.AddComponent<Queen>();
-                        _piece.GetComponent<Queen>().Initialize(j == 0 ? Piece.Team.black : Piece.Team.white);
+                        _piece.GetComponent<Queen>().Initialize(j == 0 ? Piece.Team.Black: Piece.Team.White);
                         break;
                     default:
                         _piece = goPiece.AddComponent<Pawn>();
