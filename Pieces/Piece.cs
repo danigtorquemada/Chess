@@ -42,7 +42,7 @@ public class Piece : MonoBehaviour
 
     public int GetId() { return id; }
 
-    public virtual void ShowPosibleMovement(int row, int column) { }
+    public virtual void ShowPosibleMovement(int column, int row) { }
 
     protected void AddPosibleMovement(BoxController _box)
     {

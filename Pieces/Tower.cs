@@ -9,9 +9,9 @@ public class Tower : Piece
         base.Initialize(_team, _pieceType);
     }
 
-    public override void ShowPosibleMovement(int row, int column)
+    public override void ShowPosibleMovement(int column, int row)
     {
-        base.ShowPosibleMovement(row, column);
+        base.ShowPosibleMovement(column, row);
         possibleMovements.Clear();
 
         bool IsRow;
@@ -22,7 +22,7 @@ public class Tower : Piece
         for (int z = 0; z < 2; z++)
         {
             IsRow = z == 0;
-            position = IsRow ? row : column;
+            position = IsRow ? column : row;
 
             for (int i = 0; i < 2; i++)
             {
@@ -33,11 +33,11 @@ public class Tower : Piece
 
                     if (IsRow)
                     {
-                        _box = TableController.instance.GetBox(j, column);
+                        _box = TableController.instance.GetBox(j, row);
                     }
                     else
                     {
-                        _box = TableController.instance.GetBox(row, j);
+                        _box = TableController.instance.GetBox(column, j);
                     }
 
                     if (_box)

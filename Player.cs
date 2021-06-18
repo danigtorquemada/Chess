@@ -21,7 +21,6 @@ public class Player : MonoBehaviour
     {
         if (Input.GetMouseButtonUp(0))
         {
-            //Debug.DrawRay(mainCamera.ScreenToWorldPoint(Input.mousePosition), mainCamera.transform.forward * 100, Color.red, 5f);
             if (Physics.Raycast(mainCamera.ScreenToWorldPoint(Input.mousePosition), mainCamera.transform.forward * 100, out hit, Mathf.Infinity, layerPiece))
             {
                 if (hit.transform.TryGetComponent(out box))

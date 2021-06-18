@@ -12,13 +12,13 @@ public class Pawn : Piece
         base.Initialize(_team, _pieceType);
     }
 
-    public override void ShowPosibleMovement(int row, int column)
+    public override void ShowPosibleMovement(int column, int row)
     {
-        base.ShowPosibleMovement(row, column);
+        base.ShowPosibleMovement(column, row);
         possibleMovements.Clear();
 
         int multiplierTeam = (myTeam == Team.Black ? 1 : -1);
-        BoxController _box = TableController.instance.GetBox(row, column + multiplierTeam);
+        BoxController _box = TableController.instance.GetBox(column, row + multiplierTeam);
 
         if (_box && !_box.HasPiece())
         {
@@ -27,7 +27,7 @@ public class Pawn : Piece
 
         if (bFirstMovement && !_box.HasPiece())
         {
-            _box = TableController.instance.GetBox(row, column + multiplierTeam * 2);
+            _box = TableController.instance.GetBox(column, row + multiplierTeam * 2);
             if (_box && !_box.HasPiece())
             {
                 AddPosibleMovement(_box);
@@ -38,9 +38,9 @@ public class Pawn : Piece
         {
             int x = i == 0 ? -1 : 1;
 
-            _box = TableController.instance.GetBox(row + x, column + multiplierTeam);
+            _box = TableController.instance.GetBox(column + x, row + multiplierTeam);
 
-            if (_box  && _box.HasPiece() && _box.GetPiece().GetTeam() != myTeam)
+            if (_box && _box.HasPiece() && _box.GetPiece().GetTeam() != myTeam)
             {
                 AddPosibleMovement(_box);
             }
@@ -52,6 +52,13 @@ public class Pawn : Piece
         if (base.TryMove(_box))
         {
             bFirstMovement = false;
+
+
+            int row = myTeam == Team.Black ? 7 : 0;
+            if (_box.row == row)
+            {
+                //Revivir pieza
+            }
             return true;
         }
         else

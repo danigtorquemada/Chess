@@ -45,7 +45,7 @@ public class UIManager : MonoBehaviour
         {
             rect = pieces[i].GetComponent<RectTransform>();
             pos = rect.localPosition;
-            pos.x = (i * 100);
+            pos.x = (i * 75);
             rect.localPosition = pos;
         }
     }

@@ -9,9 +9,9 @@ public class King : Piece
         base.Initialize(_team, _pieceType);
     }
 
-    public override void ShowPosibleMovement(int row, int column)
+    public override void ShowPosibleMovement(int column, int row)
     {
-        base.ShowPosibleMovement(row, column);
+        base.ShowPosibleMovement(column, row);
         possibleMovements.Clear();
 
         BoxController _box;
@@ -22,8 +22,8 @@ public class King : Piece
         {
             for (int i = -1; i <= 1; i++)
             {
-                x = z  + row;
-                y = i  + column;
+                x = z  + column;
+                y = i  + row;
 
                 //Table limits
                 if (x < 0 || y < 0 || x > 7 || y > 7) continue;

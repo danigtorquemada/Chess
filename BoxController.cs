@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BoxController : MonoBehaviour
 {
-    int row;
-    int column;
+    public int row { get; private set; }
+    public int column { get; private set; }
 
     [SerializeField] Piece piece;
 
@@ -74,7 +74,7 @@ public class BoxController : MonoBehaviour
         ChangeColor(selectedColor);
 
         if (piece != null && turn == (int)piece.GetTeam())
-            piece.ShowPosibleMovement(row, column);
+            piece.ShowPosibleMovement(column, row);
     }
 
     public void DeselectBox(bool firstSelected = true)

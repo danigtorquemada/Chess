@@ -9,9 +9,9 @@ public class Horse : Piece
         base.Initialize(_team, _pieceType);
     }
 
-    public override void ShowPosibleMovement(int row, int column)
+    public override void ShowPosibleMovement(int column, int row)
     {
-        base.ShowPosibleMovement(row, column);
+        base.ShowPosibleMovement(column, row);
         possibleMovements.Clear();
 
         BoxController _box;
@@ -29,14 +29,14 @@ public class Horse : Piece
 
                     if (doubleColumn)
                     {
-                        x = z + row;
-                        y = i * 2 + column;
+                        x = z + column;
+                        y = i * 2 + row;
                     }
                     else
                     {
 
-                        x = z * 2 + row;
-                        y = i + column;
+                        x = z * 2 + column;
+                        y = i + row;
                     }
 
                     //Table limits

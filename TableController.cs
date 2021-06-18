@@ -32,9 +32,9 @@ public class TableController : MonoBehaviour
                 table[i * 8 + j] = _box;
 
                 if ((i + j) % 2 == 0)
-                    _box.Initialize(Color.grey, i, j);
+                    _box.Initialize(Color.grey, j, i);
                 else
-                    _box.Initialize(Color.white, i, j);
+                    _box.Initialize(Color.white, j, i);
             }
         }
 

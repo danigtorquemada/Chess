@@ -9,9 +9,9 @@ public class Queen : Piece
         base.Initialize(_team, _pieceType);
     }
 
-    public override void ShowPosibleMovement(int row, int column)
+    public override void ShowPosibleMovement(int column, int row)
     {
-        base.ShowPosibleMovement(row, column);
+        base.ShowPosibleMovement(column, row);
         possibleMovements.Clear();
 
         BoxController _box;
@@ -24,8 +24,8 @@ public class Queen : Piece
             {
                 for (int j = 1; j < 8; j++)
                 {
-                    x = z * j + row;
-                    y = i * j + column;
+                    x = z * j + column;
+                    y = i * j + row;
 
                     //Table limits
                     if (x < 0 || y < 0 || x > 7 || y > 7) break;
