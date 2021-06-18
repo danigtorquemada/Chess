@@ -17,7 +17,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] List<Piece> DeathBlackPieces = new List<Piece>();
 
     Dictionary<Piece.Team, List<Piece>> pieces;
-    Dictionary<Piece.Team, List<Piece>> deathPieces;
+    Dictionary<Piece.Team, List<Piece>> poolPieces;
+
 
     private void Awake()
     {
@@ -31,11 +32,12 @@ public class GameManager : MonoBehaviour
     void InitializeDictionaries()
     {
         pieces = new Dictionary<Piece.Team, List<Piece>>();
-        deathPieces = new Dictionary<Piece.Team, List<Piece>>();
+        poolPieces = new Dictionary<Piece.Team, List<Piece>>();
+
         pieces.Add(Piece.Team.Black, BlackPieces);
         pieces.Add(Piece.Team.White, WhitePieces);
-        deathPieces.Add(Piece.Team.Black, DeathBlackPieces);
-        deathPieces.Add(Piece.Team.White, DeathWhitePieces);
+        poolPieces.Add(Piece.Team.Black, DeathBlackPieces);
+        poolPieces.Add(Piece.Team.White, DeathWhitePieces);
     }
     public Piece.Team GetTurn() { return currentPlayer; }
 
@@ -55,7 +57,9 @@ public class GameManager : MonoBehaviour
     {
         Piece.Team deathPieceTeam = currentPlayer == Piece.Team.Black ? Piece.Team.White : Piece.Team.Black;
         pieces[deathPieceTeam].Remove(piece);
-        deathPieces[deathPieceTeam].Add(piece);
+        poolPieces[deathPieceTeam].Add(piece);
+
+        uiManager.DeathPiece(piece.GetId());
 
         piece.gameObject.SetActive(false);
     }

@@ -7,6 +7,8 @@ public class Piece : MonoBehaviour
     [SerializeField] protected Team myTeam;
     [SerializeField] PieceType pieceType;
 
+    int id;
+
     protected List<BoxController> possibleMovements = new List<BoxController>();
 
     public enum Team { White , Black }
@@ -18,6 +20,8 @@ public class Piece : MonoBehaviour
         myTeam = _team;
         pieceType = _pieceType;
 
+        id = (int)myTeam * 6 + (int)pieceType;
+
         SetImage();
 
         GameManager.singleton.AddPiece(this);
@@ -27,7 +31,7 @@ public class Piece : MonoBehaviour
     {
         if (TryGetComponent(out SpriteRenderer renderer))
         {
-            renderer.sprite = SpriteManager.singleton.GetSprite(((int)myTeam * 6) + (int)pieceType);
+            renderer.sprite = SpriteManager.singleton.GetSprite(id);
         }
     }
 
@@ -35,6 +39,8 @@ public class Piece : MonoBehaviour
     {
         return myTeam;
     }
+
+    public int GetId() { return id; }
 
     public virtual void ShowPosibleMovement(int row, int column) { }
 
