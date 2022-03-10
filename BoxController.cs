@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class BoxController : MonoBehaviour
 {
-    public int row { get; private set; }
-    public int column { get; private set; }
+    public Position position;
 
     [SerializeField] Piece piece;
 
@@ -15,7 +14,7 @@ public class BoxController : MonoBehaviour
 
     MaterialPropertyBlock propertyBlock;
     Renderer renderer;
-    public void Initialize(Color _color, int _row, int _column)
+    public void Initialize(Color _color, int _column, int _row)
     {
         bool b = TryGetComponent(out renderer);
         propertyBlock = new MaterialPropertyBlock();
@@ -26,7 +25,7 @@ public class BoxController : MonoBehaviour
 
 
         ChangeColor(baseColor);
-        SetPosition(_row, _column);
+        SetPosition(_column, _row);
     }
 
     void ChangeColor(Color color)
@@ -35,17 +34,19 @@ public class BoxController : MonoBehaviour
         renderer.SetPropertyBlock(propertyBlock);
     }
 
-    public void SetPosition(int _row, int _column)
+    public void SetPosition(int _column, int _row)
     {
-        row = _row;
-        column = _column;
+        position = new Position(_column, _row);
     }
 
     public void SetPiece(Piece _piece)
     {
         piece = _piece;
         if (piece != null)
+        {
             piece.transform.position = transform.position;
+            piece.SetPosition(position.Column, position.Row);
+        }
     }
 
     public bool HasPiece(out Piece currentPiece)
@@ -74,7 +75,7 @@ public class BoxController : MonoBehaviour
         ChangeColor(selectedColor);
 
         if (piece != null && turn == (int)piece.GetTeam())
-            piece.ShowPosibleMovement(column, row);
+            piece.SelectPiece(this);
     }
 
     public void DeselectBox(bool firstSelected = true)

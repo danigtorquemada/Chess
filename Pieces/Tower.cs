@@ -9,53 +9,69 @@ public class Tower : Piece
         base.Initialize(_team, _pieceType);
     }
 
-    public override void ShowPosibleMovement(int column, int row)
+    public override void PossibleMovements()
     {
-        base.ShowPosibleMovement(column, row);
-        possibleMovements.Clear();
+        base.PossibleMovements();
 
-        bool IsRow;
-        int incrementer;
-        int position;
+        CheckVerticalMoves();
+        CheckHorizontalMoves();
+    }
+
+    private void CheckVerticalMoves()
+    {
         BoxController _box;
 
-        for (int z = 0; z < 2; z++)
+        for (int incrementer = -1; incrementer <= 1; incrementer += 2)
         {
-            IsRow = z == 0;
-            position = IsRow ? column : row;
-
-            for (int i = 0; i < 2; i++)
+            for (int j = position.Column + incrementer; j < 8 && j >= 0; j += incrementer)
             {
-                incrementer = i == 0 ? 1 : -1;
+                _box = TableController.instance.GetBox(j, position.Row);
 
-                for (int j = position + incrementer; j < 8 && j >= 0; j += incrementer)
+                if (_box)
                 {
-
-                    if (IsRow)
+                    if (!_box.HasPiece())
                     {
-                        _box = TableController.instance.GetBox(j, row);
+                        AddPossibleMovement(_box);
+                    }
+                    else if (_box.GetPiece().GetTeam() != myTeam)
+                    {
+                        AddPossibleMovement(_box);
+                        break;
                     }
                     else
-                    {
-                        _box = TableController.instance.GetBox(column, j);
-                    }
-
-                    if (_box)
-                    {
-                        if (!_box.HasPiece())
-                        {
-                            AddPosibleMovement(_box);
-                        }
-                        else if(_box.GetPiece().GetTeam() != myTeam)
-                        {
-                            AddPosibleMovement(_box);
-                            break;
-                        }
-                        else
-                        { break; }
-                    }
+                    { break; }
                 }
             }
         }
     }
+
+    private void CheckHorizontalMoves()
+    {
+        BoxController _box;
+
+        for (int incrementer = -1; incrementer <= 1; incrementer += 2)
+        {
+            for (int j = position.Row + incrementer; j < 8 && j >= 0; j += incrementer)
+            {
+                _box = TableController.instance.GetBox(position.Column, j);
+
+                if (_box)
+                {
+                    if (!_box.HasPiece())
+                    {
+                        AddPossibleMovement(_box);
+                    }
+                    else if (_box.GetPiece().GetTeam() != myTeam)
+                    {
+                        AddPossibleMovement(_box);
+                        break;
+                    }
+                    else
+                    { break; }
+                }
+            }
+        }
+    }
+
+
 }

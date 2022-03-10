@@ -9,23 +9,22 @@ public class Queen : Piece
         base.Initialize(_team, _pieceType);
     }
 
-    public override void ShowPosibleMovement(int column, int row)
+    public override void PossibleMovements()
     {
-        base.ShowPosibleMovement(column, row);
-        possibleMovements.Clear();
+        base.PossibleMovements();
 
         BoxController _box;
         int x;
         int y;
 
-        for (int z = -1; z <= 1; z++)
+        for (int leftIncrementer = -1; leftIncrementer <= 1; leftIncrementer++)
         {
-            for (int i = -1; i <= 1; i++)
+            for (int upIncrementer = -1; upIncrementer <= 1; upIncrementer++)
             {
                 for (int j = 1; j < 8; j++)
                 {
-                    x = z * j + column;
-                    y = i * j + row;
+                    x = leftIncrementer * j + position.Column;
+                    y = upIncrementer * j + position.Row;
 
                     //Table limits
                     if (x < 0 || y < 0 || x > 7 || y > 7) break;
@@ -36,11 +35,11 @@ public class Queen : Piece
                     {
                         if (!_box.HasPiece())
                         {
-                            AddPosibleMovement(_box);
+                            AddPossibleMovement(_box);
                         }
                         else if (_box.GetPiece().GetTeam() != myTeam)
                         {
-                            AddPosibleMovement(_box);
+                            AddPossibleMovement(_box);
                             break;
                         }
                         else

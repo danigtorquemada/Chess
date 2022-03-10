@@ -23,18 +23,18 @@ public class TableController : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < 8; i++)
+        for (int row = 0; row < 8; row++)
         {
-            for (int j = 0; j < 8; j++)
+            for (int column = 0; column < 8; column++)
             {
-                BoxController _box = Instantiate(box, new Vector3(i, j, 0) + transform.position, Quaternion.identity, gameObject.transform);
-                _box.name += i * 8 + j;
-                table[i * 8 + j] = _box;
+                BoxController _box = Instantiate(box, new Vector3(column, row, 0) + transform.position, Quaternion.identity, gameObject.transform);
+                _box.name += row * 8 + column;
+                table[row * 8 + column] = _box;
 
-                if ((i + j) % 2 == 0)
-                    _box.Initialize(Color.grey, j, i);
+                if ((column + row) % 2 == 0)
+                    _box.Initialize(Color.grey, column, row);
                 else
-                    _box.Initialize(Color.white, j, i);
+                    _box.Initialize(Color.white, column, row);
             }
         }
 
@@ -46,55 +46,58 @@ public class TableController : MonoBehaviour
         Piece _piece;
         GameObject goPiece;
         //Instantiate pawns
-        for (int i = 0; i < 8; i++)
+        for (int column = 0; column < 8; column++)
         {
-            for (int j = 1; j < 7; j += 5)
+            for (int row = 1; row < 7; row += 5)
             {
-                goPiece = Instantiate(piece.gameObject, new Vector3(i, j, 0) + transform.position, Quaternion.identity, teams[j == 1 ? 0 : 1]);
+                goPiece = Instantiate(piece.gameObject, new Vector3(column, row, 0) + transform.position, Quaternion.identity, teams[row == 1 ? 0 : 1]);
                 _piece = goPiece.AddComponent<Pawn>();
-                _piece.GetComponent<Pawn>().Initialize(j == 1 ? Piece.Team.Black : Piece.Team.White);
-                table[i * 8 + j].SetPiece(_piece);
+                _piece.GetComponent<Pawn>().Initialize(row == 1 ? Piece.Team.Black : Piece.Team.White);
+                table[row * 8 + column].SetPiece(_piece);
             }
 
-            for (int j = 0; j < 8; j += 7)
+            for (int row = 0; row < 8; row += 7)
             {
-                goPiece = Instantiate(piece.gameObject, new Vector3(i, j, 0) + transform.position, Quaternion.identity, teams[j == 0 ? 0 : 1]);
-                switch (i)
+                goPiece = Instantiate(piece.gameObject, new Vector3(column, row, 0) + transform.position, Quaternion.identity, teams[row == 0 ? 0 : 1]);
+                switch (column)
                 {
                     case 0:
                     case 7:
                         _piece = goPiece.AddComponent<Tower>();
-                        _piece.GetComponent<Tower>().Initialize(j == 0 ? Piece.Team.Black : Piece.Team.White);
+                        _piece.GetComponent<Tower>().Initialize(row == 0 ? Piece.Team.Black : Piece.Team.White);
                         break;
                     case 1:
                     case 6:
                         _piece = goPiece.AddComponent<Horse>();
-                        _piece.GetComponent<Horse>().Initialize(j == 0 ? Piece.Team.Black: Piece.Team.White);
+                        _piece.GetComponent<Horse>().Initialize(row == 0 ? Piece.Team.Black : Piece.Team.White);
                         break;
                     case 2:
                     case 5:
                         _piece = goPiece.AddComponent<Bishop>();
-                        _piece.GetComponent<Bishop>().Initialize(j == 0 ? Piece.Team.Black : Piece.Team.White);
+                        _piece.GetComponent<Bishop>().Initialize(row == 0 ? Piece.Team.Black : Piece.Team.White);
                         break;
                     case 3:
                         _piece = goPiece.AddComponent<King>();
-                        _piece.GetComponent<King>().Initialize(j == 0 ? Piece.Team.Black: Piece.Team.White);
+                        _piece.GetComponent<King>().Initialize(row == 0 ? Piece.Team.Black : Piece.Team.White);
                         break;
                     case 4:
                         _piece = goPiece.AddComponent<Queen>();
-                        _piece.GetComponent<Queen>().Initialize(j == 0 ? Piece.Team.Black: Piece.Team.White);
+                        _piece.GetComponent<Queen>().Initialize(row == 0 ? Piece.Team.Black : Piece.Team.White);
                         break;
                     default:
                         _piece = goPiece.AddComponent<Pawn>();
                         break;
                 }
-                table[i * 8 + j].SetPiece(_piece);
+                table[row * 8 + column].SetPiece(_piece);
             }
         }
     }
 
-    public BoxController GetBox(int row, int column)
+    public BoxController GetBox(int column, int row)
     {
+        if (!(column < 8 && column >= 0 && row < 8 && row >= 0))
+            return null;
+
         int position = row * 8 + column;
         if (position < table.Length && position >= 0)
             return table[position];

@@ -9,21 +9,20 @@ public class King : Piece
         base.Initialize(_team, _pieceType);
     }
 
-    public override void ShowPosibleMovement(int column, int row)
+    public override void PossibleMovements()
     {
-        base.ShowPosibleMovement(column, row);
-        possibleMovements.Clear();
+        base.PossibleMovements();
 
         BoxController _box;
         int x;
         int y;
 
-        for (int z = -1; z <= 1; z++)
+        for (int leftIncrementer = -1; leftIncrementer <= 1; leftIncrementer++)
         {
-            for (int i = -1; i <= 1; i++)
+            for (int upIncrementer = -1; upIncrementer <= 1; upIncrementer++)
             {
-                x = z  + column;
-                y = i  + row;
+                x = leftIncrementer  + position.Column;
+                y = upIncrementer  + position.Row;
 
                 //Table limits
                 if (x < 0 || y < 0 || x > 7 || y > 7) continue;
@@ -34,12 +33,11 @@ public class King : Piece
                 {
                     if (!_box.HasPiece())
                     {
-                        AddPosibleMovement(_box);
+                        AddPossibleMovement(_box);
                     }
                     else if (_box.GetPiece().GetTeam() != myTeam)
                     {
-                        AddPosibleMovement(_box);
-                        break;
+                        AddPossibleMovement(_box);
                     }
                     else
                     { continue; }

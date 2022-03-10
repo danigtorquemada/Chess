@@ -9,19 +9,18 @@ public class Horse : Piece
         base.Initialize(_team, _pieceType);
     }
 
-    public override void ShowPosibleMovement(int column, int row)
+    public override void PossibleMovements()
     {
-        base.ShowPosibleMovement(column, row);
-        possibleMovements.Clear();
+        base.PossibleMovements();
 
         BoxController _box;
         int x;
         int y;
         bool doubleColumn;
 
-        for (int z = -1; z <= 1; z += 2)
+        for (int leftIncrementer = -1; leftIncrementer <= 1; leftIncrementer += 2)
         {
-            for (int i = -1; i <= 1; i += 2)
+            for (int upIncrementer = -1; upIncrementer <= 1; upIncrementer += 2)
             {
                 for (int j = 0; j <= 1; j++)
                 {
@@ -29,14 +28,14 @@ public class Horse : Piece
 
                     if (doubleColumn)
                     {
-                        x = z + column;
-                        y = i * 2 + row;
+                        x = leftIncrementer + position.Column;
+                        y = upIncrementer * 2 + position.Row;
                     }
                     else
                     {
 
-                        x = z * 2 + column;
-                        y = i + row;
+                        x = leftIncrementer * 2 + position.Column;
+                        y = upIncrementer + position.Row;
                     }
 
                     //Table limits
@@ -48,17 +47,16 @@ public class Horse : Piece
                     {
                         if (!_box.HasPiece())
                         {
-                            AddPosibleMovement(_box);
+                            AddPossibleMovement(_box);
                         }
                         else if (_box.GetPiece().GetTeam() != myTeam)
                         {
-                            AddPosibleMovement(_box);
+                            AddPossibleMovement(_box);
                             break;
                         }
                         else
                         { continue; }
                     }
-
                 }
             }
         }

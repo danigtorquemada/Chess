@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] Transform whiteDeaths;
     [SerializeField] Transform blackDeaths;
+    [SerializeField] Transform resurrectTransform;
     [SerializeField] DeathPiece deathPiece;
 
     Dictionary<int, DeathPiece> deathsPieces = new Dictionary<int, DeathPiece>();
@@ -48,5 +49,21 @@ public class UIManager : MonoBehaviour
             pos.x = (i * 75);
             rect.localPosition = pos;
         }
+    }
+
+    public void PawnInLastRow(Piece.Team team)
+    {
+        resurrectTransform.gameObject.SetActive(true);
+        int multiplier = team == Piece.Team.White ? 0 : 1;
+        for (int i = 0; i < 5; i++)
+        {
+            resurrectTransform.GetChild(i).GetComponent<DeathPiece>().InitializeData(i + (multiplier * 6));
+        }
+    }
+
+    public void ChangePawn(DeathPiece newPiece)
+    {
+        GameManager.singleton.ChangePawn(newPiece);
+        resurrectTransform.gameObject.SetActive(false);
     }
 }

@@ -16,10 +16,16 @@ public class Player : MonoBehaviour
     BoxController lastBox;
 
     Piece piece;
+    bool bCanMove = true;
+
+    public void bChangeCanMove(bool canMove)
+    {
+        bCanMove = canMove;
+    }
 
     void Update()
     {
-        if (Input.GetMouseButtonUp(0))
+        if (Input.GetMouseButtonUp(0) && bCanMove)
         {
             if (Physics.Raycast(mainCamera.ScreenToWorldPoint(Input.mousePosition), mainCamera.transform.forward * 100, out hit, Mathf.Infinity, layerPiece))
             {

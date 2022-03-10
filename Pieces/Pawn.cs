@@ -12,37 +12,34 @@ public class Pawn : Piece
         base.Initialize(_team, _pieceType);
     }
 
-    public override void ShowPosibleMovement(int column, int row)
+    public override void PossibleMovements()
     {
-        base.ShowPosibleMovement(column, row);
-        possibleMovements.Clear();
+        base.PossibleMovements();
 
         int multiplierTeam = (myTeam == Team.Black ? 1 : -1);
-        BoxController _box = TableController.instance.GetBox(column, row + multiplierTeam);
+        BoxController _box = TableController.instance.GetBox(position.Column, position.Row + multiplierTeam);
 
         if (_box && !_box.HasPiece())
         {
-            AddPosibleMovement(_box);
+            AddPossibleMovement(_box);
         }
 
         if (bFirstMovement && !_box.HasPiece())
         {
-            _box = TableController.instance.GetBox(column, row + multiplierTeam * 2);
+            _box = TableController.instance.GetBox(position.Column, position.Row + multiplierTeam * 2);
             if (_box && !_box.HasPiece())
             {
-                AddPosibleMovement(_box);
+                AddPossibleMovement(_box);
             }
         }
 
-        for (int i = 0; i < 2; i++)
+        for (int leftIncrementer = -1; leftIncrementer <= 1; leftIncrementer += 2)
         {
-            int x = i == 0 ? -1 : 1;
-
-            _box = TableController.instance.GetBox(column + x, row + multiplierTeam);
+            _box = TableController.instance.GetBox(position.Column + leftIncrementer, position.Row + multiplierTeam);
 
             if (_box && _box.HasPiece() && _box.GetPiece().GetTeam() != myTeam)
             {
-                AddPosibleMovement(_box);
+                AddPossibleMovement(_box);
             }
         }
     }
@@ -54,10 +51,10 @@ public class Pawn : Piece
             bFirstMovement = false;
 
 
-            int row = myTeam == Team.Black ? 7 : 0;
-            if (_box.row == row)
+            int lastRow = myTeam == Team.Black ? 7 : 0;
+            if (_box.position.Row == lastRow)
             {
-                //Revivir pieza
+                GameManager.singleton.PawnInLastRow(myTeam, this, _box);
             }
             return true;
         }
